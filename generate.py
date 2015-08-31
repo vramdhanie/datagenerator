@@ -9,10 +9,18 @@ n = 10  # number of data sets to Generate
 M = 25  # number of plots per dataset
 N = 5   # number of attributes per plot
 
-arr = map(lambda row:map(lambda x:x*2, row), np.random.random((M,N)));
-print arr
+def generateSet(Plots, Attributes):
+    arr = map(lambda row:map(lambda x:x*2, row), np.random.random((Plots, Attributes)))
+    df = pd.DataFrame(arr)
+    csv = df.to_csv(path_or_buf=None, sep=',', header=False, index=False)
+    return csv
 
-df = pd.DataFrame(arr)
-csv = df.to_csv(path_or_buf=None, sep=',', header=False, index=False)
-print csv
+
+f = open('data.txt', 'w')
+for i in range(1, n):
+    data = ("%d\n%d\n%s\n" % (M, N, generateSet(M, N)))
+    f.write(data)
+    M += 5
+f.close()
+
 # np.savetxt("foo.csv", arr, delimiter=",", fmt="%1.5f")
